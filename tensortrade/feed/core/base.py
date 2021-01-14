@@ -20,6 +20,18 @@ from tensortrade.feed.core.mixins import DataTypeMixin
 
 T = TypeVar("T")
 
+class T:
+    """
+    Descendant of `object` that rectifies `__new__` overriding.
+    This class is intended to be listed as the last base class (just
+    before the implicit `object`).  It is a part of a workaround for
+      * https://bugs.python.org/issue36827
+    """
+    __slots__ = ()
+
+    @staticmethod
+    def __new__(cls, *_args, **_kwargs):
+        return object.__new__(cls)
 
 class Named:
     """A class for controlling the naming of objects.
